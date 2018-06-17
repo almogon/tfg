@@ -11,10 +11,10 @@ router.post('/', function(req, res, next){
 	var pass = body.password;
 	LOG.debug('Login de ' + nick);
 	//llamada a mongoosee con finduser
-	var userDB = UserController.findByNickAndPass(nick,pass);
-	if(utils.isNullOrEmptyOrUndefined(userDB) || utils.isNullOrEmptyOrUndefined(pass) || pass !== userDB.PASS) {
+	var userDB = UserController.findByNickAndPass(nick, pass);
+	if(utils.isNullOrEmptyOrUndefined(userDB)) {
 		LOG.error('Login fail: credentials not valid');
-		return res.sendStatus(ERRORS.USER_NOT_VALID.status);
+		return res.sendStatus(ERRORS.USER_NOT_VALID.status).json(ERRORS.USER_NOT_VALID);
 	}
 	return res.json(createToken(userDB));
 });

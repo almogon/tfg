@@ -1,10 +1,10 @@
 'use strict'
-var mongoose =  require('mongoose');
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Creamos el objeto del esquema y sus atributos
 var UserSchema = Schema({
-    id: int,
+    id: Number,
     name: String,
     surname: String,
     nick: String,

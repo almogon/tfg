@@ -4,7 +4,7 @@ var utils = require('./../../../utils/commons').utils;
 var errors = require('./../../../constants/errors').errors;
 var grid = require('gridfs-stream');
 var mongoose = require('mongoose');
-//var mongoodb = require('mongodb').MongoClient;
+mongoose.Promise = global.Promise;
 var multer = require('multer');
 var GridFsStorage = require('multer-gridfs-storage');
 
