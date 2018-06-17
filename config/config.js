@@ -1,3 +1,3 @@
 exports.secret = {
-	secret: ''
+	secret: 'clave_secreta'
 };

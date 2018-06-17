@@ -16,17 +16,17 @@ module.exports = function(req, res, next) {
   var token = getTokenFromHeader(req);
   if (_.isNull(token)) {
     LOG.error('Error auth: token null');
-    return res.status(401).send(errors.TOKEN_NOT_FOUND);
+    return res.status(403).send(errors.TOKEN_NOT_FOUND);
   }
   try {
     var payload = jwt.decode(token, secret);
-    if(payload.exp <= moment().unix()) {
+    if(payload.exp > moment().unix()) {
       return res.status(401).send(errors.TOKEN_EXPIRED);
     }
     req.user = payload.user;
     next();
   } catch(err) {
     LOG.error('Error auth: token not valid');
-    return res.status(401).send(errors.TOKEN_NOT_FOUND);
+    return res.status(404).send(errors.TOKEN_NOT_FOUND);
   }
 };
