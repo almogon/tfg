@@ -1,3 +1,206 @@
 {
-    
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server",
+    "version": "1.0.0",
+    "title": "Swagger TFG"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "login",
+      "description": "Login"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Login",
+        "description": "",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login parameters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "$ref": "#/definitions/error_user_not_valid"
+          }
+        },
+        "security": [
+          {
+            "authorization": [
+            ]
+          }
+        ]
+      }
+    },
+    "/user/pdf": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get list of pdf from the user",
+        "description": "This can only be done by the logged user.",
+        "operationId": "getPDF",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "#definitions/getPDF"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "post a new PDF",
+        "description": "This can only be done by the logged user.",
+        "operationId": "postPDF",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "PDF",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postPDF"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "update a PDF",
+        "description": "This can only be done by the logged user.",
+        "operationId": "putPDF",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "PDF",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/putPDF"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "authorization": {
+      "type": "Authorization",
+      "name": "Bearer",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "login": {
+      "type": "object",
+      "properties": {
+        "nick": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "string",
+          "format": "jwt"
+        }
+      }
+    },
+    "getPDF": {
+      "type": "object",
+      "properties": {}
+    },
+    "postPDF": {
+      "type": "object",
+      "properties": {}
+    },
+    "putPDF": {
+      "type": "object",
+      "properties": {}
+    },
+    "error_general": {
+      "type": "object",
+      "properties": {
+        "code": 500,
+		    "status": "Something was wrong"
+      }
+    },
+    "error_user_not_valid": {
+      "type": "object",
+      "properties": {
+        "code": 401,
+		    "status": "User unauthorized"
+      }
+    },
+    "error_token_not_found": {
+      "type": "object",
+      "properties": {
+        "code": 401,
+		    "status": "Incorrect token"
+      }
+    },
+    "error_token_expired": {
+      "type": "object",
+      "properties": {
+        "code": 401,
+		    "status": "Token expired"
+      }
+    },
+    "error_param_not_valid": {
+      "type": "object",
+      "properties": {
+        "code": 403,
+		    "status": "Params not correct"
+      }
+    }
+  }
 }
