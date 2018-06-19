@@ -12,6 +12,8 @@ global._ = require('underscore');
 global.moment= require('moment');
 global.store = require('store');
 global.LOG = log4js.getLogger();
+global.mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 LOG.level = 'info';
 
 app.use(bodyParser.urlencoded({ extended: false }));

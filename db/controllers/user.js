@@ -1,14 +1,14 @@
 var User = require('./../models/user');
 
 exports.findByNickAndPass = (nick, pass) => {
-    return new Promise((res, rej) => {
+    return new Promise((resolve, reject) => {
         LOG.info('find user: ' + nick + '-' + pass);
         User.find( { nick : nick, pass : pass}, (err, user) => {
             if (err) {
                 LOG.error('error find user:', nick);
-                rej(err);
+                reject(err);
             }
-            res(user);
+            resolve(user);
         } );
     });
     
