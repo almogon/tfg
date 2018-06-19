@@ -27,8 +27,8 @@ exports.createToken = function (user) {
 	var token = jwt.encode(payload, secret);
 
 	return {
-		access_token: token,
-		token_type: 'Bearer'
+		accessToken: token,
+		tokenType: 'Bearer'
 	};
 }
 
