@@ -5,19 +5,31 @@ var express = require('express'),
     log4js = require('log4js'),
     constants = require('./constants/constants').constants,
     swaggerUi = require('swagger-ui-express'),
-    swaggerDocument = require('./swagger.json');
+    swaggerDocument = require('./swagger.json'),
+    i18n = require('i18n'),
+    mongoose = require('mongoose');
 
 // Globals
 global._ = require('underscore');
 global.moment= require('moment');
-global.store = require('store');
 global.LOG = log4js.getLogger();
-LOG.level = 'info';
+
+// Configuration
+mongoose.Promise = global.Promise;
+LOG.level = 'debug';
+console.log(__dirname);
+
+i18n.configure({
+  locales: ['en'],
+  defaultLocale: 'en',
+  directory: __dirname + '/locales'
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(routes);
+
 /** Seting up server to accept cross-origin browser requests */
 app.use(function(req, res, next) { //allow cross origin requests
   res.setHeader("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET");
@@ -26,10 +38,13 @@ app.use(function(req, res, next) { //allow cross origin requests
   next();
 });
 
-var port = constants.PORT;
+mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
+  LOG.info('Conexión base de datos realizada correctamente');
+});
 
+var port = constants.PORT;
 app.listen(port, () => {
-  console.log('Node server running on http://localhost:' + port);
+  LOG.info('Node server running on http://localhost:' + port);
 });
 
 module.exports = app;

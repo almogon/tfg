@@ -3,20 +3,25 @@ var ERRORS = require('./../../constants/errors').errors;
 var utils = require('./../../utils/commons').utils;
 var createToken = require('./../../utils/commons').createToken;
 var UserController = require('./../../db/controllers/user');
+var i18n = require('i18n');
 
-router.post('/', function(req, res, next){
-	// We find user in the database, in this case, database is a mock
+router.post('/', (req, res) => {
 	var body = req.body;
 	var nick = body.nick;
-	var pass = body.password;
-	LOG.debug('Login de ' + nick);
-	//llamada a mongoosee con finduser
-	var userDB = UserController.findByNickAndPass(nick, pass);
-	if(utils.isNullOrEmptyOrUndefined(userDB)) {
-		LOG.error('Login fail: credentials not valid');
-		return res.sendStatus(ERRORS.USER_NOT_VALID.status).json(ERRORS.USER_NOT_VALID);
-	}
-	return res.json(createToken(userDB));
+	var password = body.password;
+	LOG.debug('Login' + nick);
+	UserController.findByNickAndPass(nick, password)
+		.then((user) => {
+			if(utils.isNullOrEmptyOrUndefined(user)) {
+				LOG.error(i18n.__('ERROR-LOGIN'));
+				return res.status(ERRORS.USER_NOT_VALID.status).send(ERRORS.USER_NOT_VALID);
+			}
+			return res.json(createToken(user));
+		})
+		.catch((err) => {
+			LOG.error(err);
+			return res.status(ERRORS.GENERAL.status).send(ERRORS.GENERAL);
+		});
 });
 
 module.exports = router;

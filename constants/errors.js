@@ -1,22 +1,26 @@
 exports.errors = {
 	GENERAL: {
-		code: 500,
-		status: 'Something was wrong'
+		status: 500,
+		message: 'Something was wrong'
 	},
 	USER_NOT_VALID: {
-		code: 401,
-		status: 'User unauthorized'
+		status: 401,
+		message: 'User unauthorized'
+	},
+	USER_REGISTERED: {
+		status: 404,
+		message: 'User has registered'
 	},
 	TOKEN_NOT_FOUND: {
-		code: 401,
-		status: 'Incorrect token'
+		status: 401,
+		message: 'Incorrect token'
 	},
 	TOKEN_EXPIRED: {
-		code: 401,
-		status: 'Token expired'
+		status: 401,
+		message: 'Token expired'
 	},
 	PARAMS_NOT_VALID: {
-		code: 404,
-		status: 'Params not correct'
+		status: 404,
+		message: 'Params not correct'
 	}
 };

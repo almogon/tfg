@@ -48,10 +48,16 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/loginSuccess"
+            }
           },
           "401": {
-            "$ref": "#/definitions/error_user_not_valid"
+            "description": "operation fail",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         },
         "security": [
@@ -149,9 +155,21 @@
         "nick": {
           "type": "string"
         },
-        "pass": {
+        "password": {
           "type": "string",
           "format": "jwt"
+        }
+      }
+    },
+    "loginSuccess": {
+      "type":"object",
+      "properties": {
+        "accessToken": {
+          "type":"string"
+        },
+        "tokenType": {
+          "type": "string",
+          "enum": ["Bearer" , "Token"]
         }
       }
     },
@@ -167,39 +185,15 @@
       "type": "object",
       "properties": {}
     },
-    "error_general": {
+    "error": {
       "type": "object",
       "properties": {
-        "code": 500,
-		    "status": "Something was wrong"
-      }
-    },
-    "error_user_not_valid": {
-      "type": "object",
-      "properties": {
-        "code": 401,
-		    "status": "User unauthorized"
-      }
-    },
-    "error_token_not_found": {
-      "type": "object",
-      "properties": {
-        "code": 401,
-		    "status": "Incorrect token"
-      }
-    },
-    "error_token_expired": {
-      "type": "object",
-      "properties": {
-        "code": 401,
-		    "status": "Token expired"
-      }
-    },
-    "error_param_not_valid": {
-      "type": "object",
-      "properties": {
-        "code": 403,
-		    "status": "Params not correct"
+        "status": {
+          "type": "number"
+        },
+		    "message": {
+          "type": "string"
+        }
       }
     }
   }

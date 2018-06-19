@@ -1,0 +1,4 @@
+{
+    "ERROR-LOGIN": "Login fail: credentials not valid",
+    "ERROR-REGISTER": "Register fail: user is in db"
+}
