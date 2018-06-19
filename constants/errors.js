@@ -7,6 +7,10 @@ exports.errors = {
 		status: 401,
 		message: 'User unauthorized'
 	},
+	USER_REGISTERED: {
+		status: 404,
+		message: 'User has registered'
+	},
 	TOKEN_NOT_FOUND: {
 		status: 401,
 		message: 'Incorrect token'

@@ -1,9 +1,9 @@
 var User = require('./../models/user');
 
-exports.findByNickAndPass = (nick, pass) => {
+exports.findByNickAndPass = (nick, password) => {
     return new Promise((resolve, reject) => {
-        LOG.info('find user: ' + nick + '-' + pass);
-        User.find( { nick : nick, pass : pass}, (err, user) => {
+        LOG.info('find user', nick);
+        User.find( { nick : nick, password : password}, (err, user) => {
             if (err) {
                 LOG.error('error find user:', nick);
                 reject(err);
@@ -14,18 +14,18 @@ exports.findByNickAndPass = (nick, pass) => {
     
 };
 
-exports.saveUser = ( nick, pass, token) => {
-    LOG.info('Create new user: ' , user);
-    var user = new User({
-        nick: nick,
-        pass: pass,
-        token: token
+exports.saveUser = (userRegister) => {
+    return new Promise((resolve, reject) => {
+        LOG.info('Create new user' , userRegister.nick);
+        var user = new User(userRegister);
+        user.save((err) => {
+            if(err) {
+                LOG.error('User not save',err);
+                reject(err);
+            }
+            LOG.debug('User save');
+            resolve();
+        });
     });
-    User.save((err) => {
-        if(err) {
-            LOG.error('User not save: ',err);
-        }
-        LOG.info(user);
-        return 'user';
-    });
+    
 }

@@ -6,10 +6,10 @@ var marvel = require('./../constants/constants').constants;
 var secret = require('./../config/config').secret.secret;
 
 exports.utils = {
-	convertToJson: function (obj) {
+	convertToJson: (obj) => {
 		return JSON.stringify(obj);
 	},
-	isNullOrEmptyOrUndefined: function(obj){
+	isNullOrEmptyOrUndefined: (obj) =>{
 		if (_.isNull(obj)){ return true; }
 		if (_.isUndefined(obj)){ return true; }
 		if (obj === ''){ return true; }
@@ -19,7 +19,7 @@ exports.utils = {
 	}
 };
 
-exports.createToken = function (user) {
+exports.createToken = (user) => {
 	var payload = {
 		user: user,
 		exp: moment().add(30,'m').unix()
