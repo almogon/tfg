@@ -1,4 +1,5 @@
 exports.constants = {
-	PORT: 3000,
-	SERVER_URL: 'http://localhost:3800'
+	PORT: 3080,
+	SERVER_URL: 'http://localhost:3080',
+	PDF_PATH: __dirname + '/PDF'
 };

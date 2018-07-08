@@ -4,9 +4,12 @@ var Schema = mongoose.Schema;
 
 // Creamos el objeto del esquema y sus atributos
 var PdfSchema = Schema({
-    id: int,
-    datos: Base64,
-    user: { type: Schema.Objectid , ref: 'User'}
+    name: String,
+    user: { 
+        type: mongoose.Schema.Types.ObjectId , 
+        ref: 'User'
+    },
+    route: String
 });
 
 module.exports = mongoose.model('Pdf', PdfSchema);

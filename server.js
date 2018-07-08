@@ -7,7 +7,8 @@ var express = require('express'),
     swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json'),
     i18n = require('i18n'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    db = null;
 
 // Globals
 global._ = require('underscore');
@@ -25,10 +26,16 @@ i18n.configure({
   directory: __dirname + '/locales'
 });
 
+global.DB = mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
+  LOG.info('Conexión base de datos realizada correctamente');
+  global.DB = db;
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(routes);
+
 
 /** Seting up server to accept cross-origin browser requests */
 app.use(function(req, res, next) { //allow cross origin requests
@@ -38,9 +45,7 @@ app.use(function(req, res, next) { //allow cross origin requests
   next();
 });
 
-mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
-  LOG.info('Conexión base de datos realizada correctamente');
-});
+
 
 let port = constants.PORT;
 app.listen(port, () => {
