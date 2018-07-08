@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 // Creamos el objeto del esquema y sus atributos
 var PdfSchema = Schema({
-    name: { type: String, required: true },
+    name: String,
     user: { 
         type: mongoose.Schema.Types.ObjectId , 
         ref: 'User',
@@ -14,4 +14,4 @@ var PdfSchema = Schema({
     favorite : Boolean
 });
 
-module.exports = mongoose.model('Pdf', PdfSchema);
+module.exports = mongoose.model('Pdfs', PdfSchema);

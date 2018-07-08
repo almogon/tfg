@@ -67,11 +67,57 @@
           }
         ]
       }
+    },"/register": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Register",
+        "description": "",
+        "operationId": "register",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register parameters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/loginSuccess"
+            }
+          },
+          "500": {
+            "description": "operation fail",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        },
+        "security": [
+          {
+            "authorization": [
+            ]
+          }
+        ]
+      }
     },
-    "/user/pdf": {
+    "/pdf": {
       "get": {
         "tags": [
-          "user"
+          "pdf"
         ],
         "summary": "Get list of pdf from the user",
         "description": "This can only be done by the logged user.",
@@ -87,7 +133,7 @@
       },
       "post": {
         "tags": [
-          "user"
+          "pdf"
         ],
         "summary": "post a new PDF",
         "description": "This can only be done by the logged user.",
@@ -109,12 +155,18 @@
         "responses": {
           "201": {
             "description": "successful operation"
+          },
+          "500": {
+            "description": "operation fail",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
-      "put": {
+      "delete": {
         "tags": [
-          "user"
+          "pdf"
         ],
         "summary": "update a PDF",
         "description": "This can only be done by the logged user.",
@@ -129,8 +181,44 @@
             "description": "PDF",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/putPDF"
+              "$ref": "#/definitions/delete"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "operation fail",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "operation fail",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
+    },
+    "/pdf/:filename": {
+      "get": {
+        "tags": ["pdf"],
+        "summary": "detail of PDF",
+        "description": "This can only be done by the logged user.",
+        "operationId": "detailPDF",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "id",
+            "required": true
           }
         ],
         "responses": {
@@ -156,8 +244,7 @@
           "type": "string"
         },
         "password": {
-          "type": "string",
-          "format": "jwt"
+          "type": "string"
         }
       }
     },
@@ -171,6 +258,20 @@
           "type": "string",
           "enum": ["Bearer" , "Token"]
         }
+      }
+    },
+    "register": {
+      "type": "object",
+      "properties": {
+        "nick": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "hash"
+        },
+        "name": "string",
+        "surname": "string"
       }
     },
     "getPDF": {

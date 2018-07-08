@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 		})
 		.catch((err) => {
 			LOG.error(err);
-			return res.status(ERRORS.GENERAL.status).send(ERRORS.GENERAL);
+			return res.status(err.status).send(err);
 		});
 });
 

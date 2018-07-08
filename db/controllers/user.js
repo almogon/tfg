@@ -1,11 +1,6 @@
-const User = require('./../models/user');
-
-let notFound = (result, reject) => {
-    if(result.length === 0) {
-        LOG.error('User - Field not found');
-        reject();
-    }
-}
+let User = require('./../models/user');
+const ERRORS = require('./../../constants/errors').errors;
+const UTILS = require('./../../utils/commons').utils;
 
 exports.findByNickAndPass = (nick, password) => {
     return new Promise((resolve, reject) => {
@@ -13,10 +8,13 @@ exports.findByNickAndPass = (nick, password) => {
         User.findOne( { nick : nick, password : password}, (err, user) => {
             if(err) {
                 LOG.error('error mongo find user by nick and pass', err);
-                reject(err);
+                return reject(ERRORS.GENERAL);
             }
-            notFound(user, reject);
-            resolve(user[0]);
+            if(UTILS.isNullOrEmptyOrUndefined(user)) {
+                LOG.error('User not found');
+                return reject(ERRORS.USER_NOT_FOUND);
+            }
+            return resolve(user);
         } );
     });
 };
@@ -27,10 +25,26 @@ exports.find = (filter, attr) => {
         User.find(filter, attr, (err, user) => {
             if(err) {
                 LOG.error('error mongo find user', err);
-                reject(err);
+                return reject(ERRORS.GENERAL);
             }
-            notFound(user, reject);
-            resolve(user);
+            return resolve(user);
+        });
+    });
+};
+
+exports.isRegister = (nick, attr) => {
+    return new Promise((resolve, reject) => {
+        LOG.info('find user', nick);
+        User.find({nick: nick}, attr, (err, user) => {
+            if(err) {
+                LOG.error('error mongo find user', err);
+                return reject(ERRORS.GENERAL);
+            }
+            if(!UTILS.isNullOrEmptyOrUndefined(user)) {
+                LOG.error('Register fail: user is in db');
+				return reject(ERRORS.USER_REGISTERED);
+            }
+            return resolve();
         });
     });
 };
@@ -42,10 +56,9 @@ exports.saveUser = (userRegister) => {
         user.save((err) => {
             if(err) {
                 LOG.error('User not save', err);
-                reject(err);
+                return reject(ERRORS.GENERAL);
             }
-            LOG.debug('User save');
-            resolve();
+            return resolve();
         });
     });   
 }

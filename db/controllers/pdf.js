@@ -1,35 +1,33 @@
-const Pdf = require('./../models/pdf');
-let notFound = (result, reject) => {
-    if(result.length === 0) {
-        LOG.error('PDF - Field not found');
-        reject();
-    }
-}
+let Pdf = require('./../models/pdf');
+const ERRORS = require('./../../constants/errors').errors;
+const UTILS = require('./../../utils/commons').utils;
 
-exports.findByFilename = (filename) => {
+exports.findByFilename = (filter, attr) => {
     return new Promise((resolve, reject) => {
-        LOG.info('find pdf', filename);
-        Pdf.find({name : filename}, (err, pdf) => {
+        LOG.info('find pdf', filter);
+        Pdf.findOne(filter, attr, (err, pdf) => {
             if (err) {
-                LOG.error('error find pdf:', filename);
-                reject(err);
+                LOG.error('error mongo find pdf by name', err);
+                return reject(ERRORS.GENERAL);
             }
-            notFound(pdf, reject);
-            resolve(pdf);
+            if(UTILS.isNullOrEmptyOrUndefined(pdf)) {
+                LOG.error('PDF - Field not found');
+                return reject(ERRORS.PDF_NOT_FOUND);
+            }
+            return resolve(pdf);
         } );
     });
 };
 
 exports.find = (filter, attr) => {
     return new Promise((resolve, reject) => {
-        LOG.info('find pdf', filename);
+        LOG.info('find pdf', filter);
         Pdf.find( filter, attr, (err, pdf) => {
             if (err) {
-                LOG.error('error find pdf:', filename);
-                reject(err);
+                LOG.error('error mongo find pdf', err);
+                return reject(ERRORS.GENERAL);
             }
-            notFound(pdf, reject);
-            resolve(pdf);
+            return resolve(pdf);
         } );
     });
 };
@@ -37,14 +35,13 @@ exports.find = (filter, attr) => {
 exports.savePdf = (pdfSave) => {
     return new Promise((resolve, reject) => {
         LOG.info('Create new pdf' , pdfSave.name);
-        let pdf = new Pdf(pdfsave);
+        let pdf = new Pdf(pdfSave);
         pdf.save((err) => {
             if(err) {
                 LOG.error('Pdf not save', err);
-                reject(err);
+                return reject(ERRORS.GENERAL);
             }
-            LOG.debug('Pdf save');
-            resolve();
+            return resolve();
         });
     });
 }
