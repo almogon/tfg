@@ -26,9 +26,8 @@ i18n.configure({
   directory: __dirname + '/locales'
 });
 
-global.DB = mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
+mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
   LOG.info('Conexión base de datos realizada correctamente');
-  global.DB = db;
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -22,5 +22,9 @@ exports.errors = {
 	PARAMS_NOT_VALID: {
 		status: 404,
 		message: 'Params not correct'
+	},
+	PDF_NOT_FOUND: {
+		status: 404,
+		message: 'Pdf not found'
 	}
 };

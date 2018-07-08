@@ -1,7 +1,7 @@
 var router = require('express').Router();
-var ERRORS = require('./../../constants/errors').errors;
+const ERRORS = require('./../../constants/errors').errors;
 var utils = require('./../../utils/commons').utils;
-var UserController = require('./../../db/controllers/user');
+const UserController = require('./../../db/controllers/user');
 
 router.post('/', (req, res) => {
 	LOG.debug('Register user', req.body.nick);
@@ -13,8 +13,7 @@ router.post('/', (req, res) => {
 			}
             UserController.saveUser(req.body);
 		})
-		.catch((err) => {
-			LOG.error(err);
+		.catch(() => {
 			return res.status(ERRORS.GENERAL.status).send(ERRORS.GENERAL);
 		});
 });
