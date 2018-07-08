@@ -8,7 +8,7 @@ exports.errors = {
 		message: 'User unauthorized'
 	},
 	USER_REGISTERED: {
-		status: 404,
+		status: 500,
 		message: 'User has registered'
 	},
 	TOKEN_NOT_FOUND: {
@@ -22,5 +22,13 @@ exports.errors = {
 	PARAMS_NOT_VALID: {
 		status: 404,
 		message: 'Params not correct'
+	},
+	PDF_NOT_FOUND: {
+		status: 404,
+		message: 'Pdf not found'
+	},
+	USER_NOT_FOUND: {
+		status: 404,
+		message: 'User not found'
 	}
 };
