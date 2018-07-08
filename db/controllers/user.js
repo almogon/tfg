@@ -1,5 +1,12 @@
 const User = require('./../models/user');
 
+let notFound = (result, reject) => {
+    if(result.length === 0) {
+        LOG.error('User - Field not found');
+        reject();
+    }
+}
+
 exports.findByNickAndPass = (nick, password) => {
     return new Promise((resolve, reject) => {
         LOG.info('find user', nick);
@@ -43,9 +50,3 @@ exports.saveUser = (userRegister) => {
     });   
 }
 
-notFound(result, reject) => {
-    if(result.length === 0) {
-        LOG.error('User - Field not found');
-        reject();
-    }
-}

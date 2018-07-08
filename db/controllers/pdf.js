@@ -1,4 +1,10 @@
 const Pdf = require('./../models/pdf');
+let notFound = (result, reject) => {
+    if(result.length === 0) {
+        LOG.error('PDF - Field not found');
+        reject();
+    }
+}
 
 exports.findByFilename = (filename) => {
     return new Promise((resolve, reject) => {
@@ -41,11 +47,4 @@ exports.savePdf = (pdfSave) => {
             resolve();
         });
     });
-}
-
-notFound(result, reject) => {
-    if(result.length === 0) {
-        LOG.error('User - Field not found');
-        reject();
-    }
 }
