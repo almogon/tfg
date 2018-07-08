@@ -42,7 +42,7 @@ mongoose.connect('mongodb://localhost:27017/tfg', (err, db) => {
   LOG.info('Conexión base de datos realizada correctamente');
 });
 
-var port = constants.PORT;
+let port = constants.PORT;
 app.listen(port, () => {
   LOG.info('Node server running on http://localhost:' + port);
 });

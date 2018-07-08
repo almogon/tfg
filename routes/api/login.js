@@ -6,9 +6,9 @@ var UserController = require('./../../db/controllers/user');
 var i18n = require('i18n');
 
 router.post('/', (req, res) => {
-	var body = req.body;
-	var nick = body.nick;
-	var password = body.password;
+	let body = req.body;
+	let nick = body.nick;
+	let password = body.password;
 	LOG.debug('Login' + nick);
 	UserController.findByNickAndPass(nick, password)
 		.then((user) => {

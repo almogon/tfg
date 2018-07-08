@@ -20,7 +20,7 @@ module.exports = function(req, res, next) {
   }
   try {
     var payload = jwt.decode(token, secret);
-    if(payload.exp > moment().unix()) {
+    if(payload.exp > moment().valueOf()) {
       return res.status(401).send(errors.TOKEN_EXPIRED);
     }
     req.user = payload.user;
